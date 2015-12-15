@@ -2,6 +2,7 @@ package net.zedge.ringtonecreator;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,9 @@ public class RingtoneCreatorFragment extends Fragment {
 
     private PlayButton   mPlayButton = null;
     private MediaPlayer mPlayer = null;
+
+    Handler handler;
+    private VisualizerView mVisualizerView;
 
     private void onRecord(boolean start) {
         if (start) {
@@ -78,23 +82,45 @@ public class RingtoneCreatorFragment extends Fragment {
 
         try {
             mRecorder.prepare();
+
+            mRecorder.getMaxAmplitude();
         } catch (IOException e) {
             Log.e(LOG, "prepare() failed");
         }
 
         mRecorder.start();
+         handler.post(updateVisualizer);
     }
 
+    Runnable updateVisualizer = new Runnable() {
+        @Override
+        public void run() {
+            if (mRecorder != null) // if we are already recording
+            {
+                // get the current amplitude
+                int x = mRecorder.getMaxAmplitude();
+                mVisualizerView.addAmplitude(x); // update the VisualizeView
+                mVisualizerView.invalidate(); // refresh the VisualizerView
+
+                // update in 40 milliseconds
+                handler.postDelayed(this, 40);
+            }
+        }
+    };
+
     private void stopRecording() {
-        mRecorder.stop();
-        mRecorder.release();
-        mRecorder = null;
+        if (mRecorder != null) {
+            mRecorder.stop();
+            mRecorder.release();
+            mRecorder = null;
+        }
     }
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
     public static RingtoneCreatorFragment newInstance(int sectionNumber) {
+
         RingtoneCreatorFragment fragment = new RingtoneCreatorFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -103,14 +129,16 @@ public class RingtoneCreatorFragment extends Fragment {
     }
 
     public RingtoneCreatorFragment() {
+        handler = new Handler();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.recording_item, container, false);
-//        TextView textView = (TextView) rootView.findViewById(R.id.recordings);
-//        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-        LinearLayout ll = (LinearLayout) rootView.findViewById(R.id.f_layout);
+        View rootView =   inflater.inflate(R.layout.record_view, container, false);
+
+        LinearLayout ll = (LinearLayout) rootView.findViewById(R.id.ll);
+        mVisualizerView = (VisualizerView) rootView.findViewById(R.id.visualizer);
 
         mRecordButton = new RecordButton(getContext());
         ll.addView(mRecordButton,
