@@ -1,8 +1,10 @@
-package net.zedge.ringtonecreator;
+package net.zedge.ringtonecreator.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import net.zedge.ringtonecreator.R;
 
 /**
  * @author Stein Eldar Johnsen <steineldar@zedge.net>
@@ -22,6 +24,6 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder {
     public void bind(Recording recording) {
         this.recording = recording;
 
-        title.setText(recording.name);
+        title.setText(recording.path);
     }
 }
