@@ -55,6 +55,11 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     }
 
     @Override
+    public void onViewRecycled(RecordingViewHolder holder) {
+        holder.recycle();
+    }
+
+    @Override
     public int getItemCount() {
         return recordings.size();
     }

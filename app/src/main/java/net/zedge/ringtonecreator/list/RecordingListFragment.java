@@ -18,12 +18,17 @@ public class RecordingListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
+    private static RecordingListFragment sInstance;
+
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static RecordingListFragment newInstance() {
-        return new RecordingListFragment();
+    public static RecordingListFragment getInstance() {
+        if (sInstance == null) {
+            sInstance = new RecordingListFragment();
+        }
+        return sInstance;
     }
 
     public RecordingListFragment() {
@@ -50,5 +55,11 @@ public class RecordingListFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(adapter);
+    }
+
+    public void reload() {
+        if (adapter != null) {
+            adapter.reload();
+        }
     }
 }

@@ -57,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 mToolbar.setTitle((mSectionsPagerAdapter.getPageTitle(position)));
+                switch (position) {
+                    case 0:
+                        RecordingListFragment.getInstance().reload();
+                }
             }
 
             @Override
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return RecordingListFragment.newInstance();
+                    return RecordingListFragment.getInstance();
                 case 1:
                     return RingtoneCreatorFragment.newInstance(0);
                 default:
