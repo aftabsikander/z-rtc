@@ -5,6 +5,8 @@
     <string name="recordings">My Recordings</string>
     <string name="record">Record a Ringtone</string>
     <string name="play">play</string>
-    <string name="delete">del</string>
-    <string name="set">Set</string>
+    <string name="delete">Delete Recording</string>
+    <string name="set">Set as Ringtone</string>
+    <string name="recording_action">Action</string>
+    <string name="stop">Stop</string>
 </resources>

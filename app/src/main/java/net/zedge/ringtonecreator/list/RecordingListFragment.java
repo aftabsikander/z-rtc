@@ -64,6 +64,8 @@ public class RecordingListFragment extends Fragment implements RecordingListAdap
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(adapter);
+
+        registerForContextMenu(mRecyclerView);
     }
 
     public void reload() {

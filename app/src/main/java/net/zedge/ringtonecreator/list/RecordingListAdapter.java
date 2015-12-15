@@ -112,7 +112,7 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     @Override
     public void onPlayRecording(RecordingViewHolder holder) {
         if (mPlayButton != null && mPlayButton != holder.play) {
-            mPlayButton.setText("Play");
+            mPlayButton.setText(R.string.play);
             releasePlayer();
             mIsPlaying = false;
         }
@@ -120,10 +120,10 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
         mPlayButton = holder.play;
 
         if (mIsPlaying) {
-            mPlayButton.setText("Play");
+            mPlayButton.setText(R.string.play);
             releasePlayer();
         } else {
-            mPlayButton.setText("Stop");
+            mPlayButton.setText(R.string.stop);
 
             if (getPlayer().isPlaying()) {
                 return;
@@ -151,7 +151,7 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     public void onCompletion(MediaPlayer mp) {
         mIsPlaying = false;
         if (mPlayButton != null) {
-            mPlayButton.setText("Play");
+            mPlayButton.setText(R.string.play);
             mPlayButton = null;
         }
         releasePlayer();
