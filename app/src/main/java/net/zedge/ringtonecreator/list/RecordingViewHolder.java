@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.zedge.ringtonecreator.R;
@@ -27,7 +28,7 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
     public Recording recording;
 
     public final TextView title;
-    public final Button play;
+    public final ImageView play;
     public final Button context;
 
     public RecordingViewHolder(View itemView, RecordingActionListener listener) {
@@ -38,7 +39,7 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
         title = (TextView) itemView.findViewById(R.id.title);
         length = (TextView) itemView.findViewById(R.id.length);
 
-        play = (Button) itemView.findViewById(R.id.play_button);
+        play = (ImageView) itemView.findViewById(R.id.play_button);
         context = (Button) itemView.findViewById(R.id.context);
 
         play.setOnClickListener(this);

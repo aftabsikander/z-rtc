@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 
 import net.zedge.ringtonecreator.R;
 
@@ -21,7 +21,7 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     private final SetRingtoneListener listener;
     private ArrayList<Recording> recordings;
     private MediaPlayer player = null;
-    private Button mPlayButton = null;
+    private ImageView mPlayButton = null;
     private boolean mIsPlaying = false;
 
     public interface SetRingtoneListener {
@@ -112,7 +112,7 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     @Override
     public void onPlayRecording(RecordingViewHolder holder) {
         if (mPlayButton != null && mPlayButton != holder.play) {
-            mPlayButton.setText(R.string.play);
+            mPlayButton.setImageResource(R.drawable.play);
             releasePlayer();
             mIsPlaying = false;
         }
@@ -120,10 +120,10 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
         mPlayButton = holder.play;
 
         if (mIsPlaying) {
-            mPlayButton.setText(R.string.play);
+            mPlayButton.setImageResource(R.drawable.play);
             releasePlayer();
         } else {
-            mPlayButton.setText(R.string.stop);
+            mPlayButton.setImageResource(R.drawable.stop);
 
             if (getPlayer().isPlaying()) {
                 return;
@@ -151,7 +151,7 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     public void onCompletion(MediaPlayer mp) {
         mIsPlaying = false;
         if (mPlayButton != null) {
-            mPlayButton.setText(R.string.play);
+            mPlayButton.setImageResource(R.drawable.play);
             mPlayButton = null;
         }
         releasePlayer();
