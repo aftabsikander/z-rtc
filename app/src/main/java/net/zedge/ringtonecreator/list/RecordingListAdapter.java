@@ -18,13 +18,19 @@ import java.util.ArrayList;
  * @since 15.12.15
  */
 public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHolder> implements RecordingViewHolder.RecordingActionListener, MediaPlayer.OnCompletionListener {
+    private final SetRingtoneListener listener;
     private ArrayList<Recording> recordings;
     private MediaPlayer player = null;
     private Button mPlayButton = null;
     private boolean mIsPlaying = false;
 
-    public RecordingListAdapter() {
-        recordings = new ArrayList<>();
+    public interface SetRingtoneListener {
+        void setRingtone(Recording recording);
+    }
+
+    public RecordingListAdapter(SetRingtoneListener listener) {
+        this.listener = listener;
+        this.recordings = new ArrayList<>();
     }
 
     public void reload() {
@@ -129,7 +135,7 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
 
     @Override
     public void onSetRingtone(RecordingViewHolder recording) {
-
+        listener.setRingtone(recording.recording);
     }
 
     @Override

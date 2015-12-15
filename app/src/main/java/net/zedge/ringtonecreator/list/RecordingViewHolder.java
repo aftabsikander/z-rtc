@@ -40,6 +40,7 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
 
         play.setOnClickListener(this);
         delete.setOnClickListener(this);
+        set.setOnClickListener(this);
     }
 
     public void bind(Recording recording) {
@@ -55,7 +56,7 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.set_button:
-                listener.onPlayRecording(this);
+                listener.onSetRingtone(this);
                 break;
             case R.id.play_button:
                 listener.onPlayRecording(this);
