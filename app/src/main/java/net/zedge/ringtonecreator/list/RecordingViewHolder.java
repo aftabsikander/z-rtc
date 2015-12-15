@@ -18,18 +18,30 @@ import java.io.IOException;
  * @since 15.12.15
  */
 public class RecordingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private final RecordingActionListener listener;
+
+    public interface RecordingActionListener {
+        void onPlayRecording(Recording recording);
+        void onDeleteRecording(Recording recording);
+    }
+
     private Recording recording;
-    private MediaPlayer player;
 
-    private final TextView title;
-    private final Button play;
+    public final TextView title;
+    public final Button play;
+    public final Button delete;
 
-    public RecordingViewHolder(View itemView) {
+    public RecordingViewHolder(View itemView, RecordingActionListener listener) {
         super(itemView);
+
+        this.listener = listener;
 
         title = (TextView) itemView.findViewById(R.id.title);
         play = (Button) itemView.findViewById(R.id.play_button);
+        delete = (Button) itemView.findViewById(R.id.delete_button);
+
         play.setOnClickListener(this);
+        delete.setOnClickListener(this);
     }
 
     public void bind(Recording recording) {
@@ -39,57 +51,17 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
     }
 
     public void recycle() {
-        if (player != null) {
-            player.release();
-            player = null;
-        }
     }
 
     @Override
     public void onClick(View v) {
-        if (player == null) {
-            player = new MediaPlayer();
+        switch (v.getId()) {
+            case R.id.play_button:
+                listener.onPlayRecording(recording);
+                break;
+            case R.id.delete_button:
+                listener.onDeleteRecording(recording);
+                break;
         }
-        if (player.isPlaying()) {
-            return;
-        }
-        playFileInMediaPlayer(player, recording.getFile());
-    }
-
-    /**
-     * Prepare the MediaPlayer for playing a ringtone represented by <code>File file</code>
-     * @param mp The MediaPlayer instance which will play the ringtone
-     * @param file The audio file to play
-     * @return Whether or not the file was set successfully as the MediaPlayer data source
-     */
-    public boolean playFileInMediaPlayer(MediaPlayer mp, File file) {
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            return playFileInputStreamInMediaPlayer(mp, fis);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    /**
-     * Prepare the MediaPlayer for playing a ringtone from a FileInputStream
-     *
-     * @param mp The MediaPlayer instance which will play the ringtone
-     * @param fileInputStream The FileInputStream for the audio
-     * @return Whether or not the FileInputStream was set successfully as the MediaPlayer data source
-     */
-    public boolean playFileInputStreamInMediaPlayer(MediaPlayer mp, FileInputStream fileInputStream) {
-        try {
-            mp.setDataSource(fileInputStream.getFD());
-            mp.prepareAsync();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            player.reset();
-        }
-        return false;
     }
 }

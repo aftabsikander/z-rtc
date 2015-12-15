@@ -16,6 +16,8 @@ import android.content.Context;
 import android.util.Log;
 import android.media.MediaRecorder;
 
+import net.zedge.ringtonecreator.list.Recording;
+
 import java.io.File;
 import java.io.IOException;
 

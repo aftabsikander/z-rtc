@@ -1,5 +1,6 @@
 package net.zedge.ringtonecreator.list;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.zedge.ringtonecreator.R;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * A placeholder fragment containing a simple view.

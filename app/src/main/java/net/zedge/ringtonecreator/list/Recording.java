@@ -34,10 +34,18 @@ public class Recording {
     }
 
     public File getFile() {
-        if (path != null) {
-            return new File(path);
-        } else {
-            return new File(getBaseDownloadDir(), name);
+        return new File(path);
+    }
+
+    public int hashCode() {
+        return path.hashCode();
+    }
+
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof Recording)) {
+            return false;
         }
+        Recording other = (Recording) o;
+        return path.equals(other.path);
     }
 }
