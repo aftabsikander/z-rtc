@@ -44,7 +44,7 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
 
     @Override
     public RecordingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recording_item, parent);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recording_item, null);
         return new RecordingViewHolder(view);
     }
 
