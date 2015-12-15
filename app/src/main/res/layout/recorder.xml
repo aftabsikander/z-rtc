@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#37424f"
+
+
+    >
+
+
+    <TextView
+        android:id="@+id/text_recording"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_marginTop="12dp"
+        android:layout_row="0"
+        android:gravity="center"
+
+        android:text="Start Recording"
+        android:textColor="#ffffff"
+
+        android:textSize="38sp" />
+
+    <View
+        android:id="@+id/record_button1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="false"
+        android:layout_column="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="39dp"
+        android:layout_row="1"
+        android:background="@drawable/white_circle"
+        android:color="#555555"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/record_button"
+
+        android:layout_width="202dp"
+        android:layout_height="202dp"
+        android:layout_column="1"
+        android:layout_gravity="center"
+        android:layout_marginTop="18sp"
+        android:layout_row="1"
+        android:src="@drawable/rec_btn" />
+
+    <TextView
+        android:id="@+id/text_counter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_marginTop="22dp"
+        android:layout_row="2"
+        android:gravity="center"
+        android:text="00:12"
+        android:textColor="#ffffff"
+
+        android:textSize="32sp" />
+
+    <net.zedge.ringtonecreator.VisualizerView
+        android:id="@+id/visualizer"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_column="1"
+
+        android:layout_margin="5dp"
+        android:layout_row="3" />
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_row="4"
+        android:orientation="horizontal"
+        android:weightSum="1.0"
+        android:gravity="center"
+
+        >
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_weight=".2"
+
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/delete" />
+        <ImageView
+            android:id="@+id/save"
+            android:layout_weight=".2"
+
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/circle_actionbar_button" />
+
+        <ImageView
+            android:id="@+id/play"
+            android:layout_weight=".2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/play_record" />
+    </LinearLayout>
+</GridLayout>

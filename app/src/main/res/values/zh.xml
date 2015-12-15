@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="zh_start_recording">Start recording</string>
+    <string name="zh__00_12">00:12</string>
+    <string name="zh_title_ringtone_npop">Title ringtone\nPop</string>
+    <string name="zh__00_24">00:24</string>
+    <string name="zh_my_recordings">My recordings</string>
+    <string name="zh__00_00">00:00</string>
+</resources>

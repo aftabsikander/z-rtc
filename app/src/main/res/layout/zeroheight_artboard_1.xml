@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zeroheight="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/artboard_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="top|center_horizontal"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    tools:ignore="missingPrefix"
+    tools:context=".MainActivity" >
+
+        <TextView
+            android:layout_width="97dp"
+            android:id="@+id/text__0012"
+            android:textColor="#ffffff"
+            android:layout_marginTop="432dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="@string/zh__00_12"
+            android:gravity="left"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:src="@drawable/img_play_9754"
+            android:scaleType="center"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="158dp"
+            android:layout_marginStart="158dp"
+            android:layout_marginTop="257dp"
+            android:id="@+id/img_play"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="180dp"
+            android:id="@+id/text_start_recording"
+            android:textColor="#ffffff"
+            android:layout_marginTop="128dp"
+            android:layout_height="wrap_content"
+            android:textSize="9sp"
+            android:text="@string/zh_start_recording"
+            android:gravity="left"
+            android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

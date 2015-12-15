@@ -112,7 +112,7 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     @Override
     public void onPlayRecording(RecordingViewHolder holder) {
         if (mPlayButton != null && mPlayButton != holder.play) {
-            mPlayButton.setImageResource(R.drawable.play);
+            mPlayButton.setImageResource(R.drawable.list_play);
             releasePlayer();
             mIsPlaying = false;
         }
@@ -120,7 +120,7 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
         mPlayButton = holder.play;
 
         if (mIsPlaying) {
-            mPlayButton.setImageResource(R.drawable.play);
+            mPlayButton.setImageResource(R.drawable.list_play);
             releasePlayer();
         } else {
             mPlayButton.setImageResource(R.drawable.stop);

@@ -13,7 +13,7 @@
 
         <ImageView
             android:id="@+id/play_button"
-            android:src="@drawable/play"
+            android:src="@drawable/list_play"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:paddingStart="0dp"
@@ -49,6 +49,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="..."
+        android:textColor="#ffffff"
+        android:background="#37424f"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"/>
 </RelativeLayout>

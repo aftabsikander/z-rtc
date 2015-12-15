@@ -7,11 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.widget.LinearLayout;
-import android.os.Environment;
 import android.widget.Button;
 import android.content.Context;
 import android.util.Log;
@@ -32,14 +31,16 @@ public class RingtoneCreatorFragment extends Fragment {
 
     private static String mFileName = null;
 
-    private RecordButton mRecordButton = null;
+//    private RecordButton mRecordButton = null;
     private MediaRecorder mRecorder = null;
 
-    private PlayButton   mPlayButton = null;
+//    private PlayButton   mPlayButton = null;
     private MediaPlayer mPlayer = null;
 
     Handler handler;
     private VisualizerView mVisualizerView;
+    private boolean mStartRecording = true;
+    private long mTime;
 
     private void onRecord(boolean start) {
         if (start) {
@@ -86,14 +87,16 @@ public class RingtoneCreatorFragment extends Fragment {
             mRecorder.prepare();
 
             mRecorder.getMaxAmplitude();
+            mRecorder.start();
+            mTime = System.currentTimeMillis();
         } catch (IOException e) {
             Log.e(LOG, "prepare() failed");
         }
 
-        mRecorder.start();
          handler.post(updateVisualizer);
     }
 
+    private TextView mTextCounter;
     Runnable updateVisualizer = new Runnable() {
         @Override
         public void run() {
@@ -104,11 +107,18 @@ public class RingtoneCreatorFragment extends Fragment {
                 mVisualizerView.addAmplitude(x); // update the VisualizeView
                 mVisualizerView.invalidate(); // refresh the VisualizerView
 
+                mTextCounter.setText(getTimeAsText());
+
                 // update in 40 milliseconds
                 handler.postDelayed(this, 40);
             }
         }
     };
+
+    static int c = 0;
+    String getTimeAsText() {
+        return Integer.toString(c++);
+    }
 
     private void stopRecording() {
         if (mRecorder != null) {
@@ -137,69 +147,121 @@ public class RingtoneCreatorFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =   inflater.inflate(R.layout.record_view, container, false);
+        View rootView =   inflater.inflate(R.layout.recorder, container, false);
 
         LinearLayout ll = (LinearLayout) rootView.findViewById(R.id.ll);
         mVisualizerView = (VisualizerView) rootView.findViewById(R.id.visualizer);
 
-        mRecordButton = new RecordButton(getContext());
-        ll.addView(mRecordButton,
-                new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        0));
-        mPlayButton = new PlayButton(getContext());
-        ll.addView(mPlayButton,
-                new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        0));
-        return rootView;
-    }
+        mTextCounter = (TextView) rootView.findViewById(R.id.text_counter);
+        final TextView textView = (TextView) rootView.findViewById(R.id.text_recording);
 
-    class RecordButton extends Button {
-        boolean mStartRecording = true;
+        ImageView saveButton = (ImageView) rootView.findViewById(R.id.save);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                c=0;
+                mVisualizerView.clear();
+                mVisualizerView.invalidate(); // refresh the VisualizerView
 
-        OnClickListener clicker = new OnClickListener() {
+                mTextCounter.setText(getTimeAsText());
+
+            }
+        });
+        ImageView playButton = (ImageView) rootView.findViewById(R.id.play);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        ImageView deleteButton = (ImageView) rootView.findViewById(R.id.delete);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                c=0;
+                mVisualizerView.clear();
+                mVisualizerView.invalidate(); // refresh the VisualizerView
+
+                mTextCounter.setText(getTimeAsText());
+
+            }
+        });
+
+        final ImageView imageView = (ImageView) rootView.findViewById(R.id.record_button);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 onRecord(mStartRecording);
                 if (mStartRecording) {
-                    setText("Stop recording");
+                    textView.setText("Stop recording");
+                    imageView.setImageResource(R.drawable.stop_btn);
                 } else {
-                    setText("Start recording");
+                    textView.setText("Start recording");
+                    imageView.setImageResource(R.drawable.rec_btn);
                 }
+
                 mStartRecording = !mStartRecording;
-            }
-        };
 
-        public RecordButton(Context ctx) {
-            super(ctx);
-            setText("Start recording");
-            setOnClickListener(clicker);
-        }
+            }
+        });
+
+//        mRecordButton = new RecordButton(getContext());
+//        ll.addView(mRecordButton,
+//                new LinearLayout.LayoutParams(
+//                        ViewGroup.LayoutParams.WRAP_CONTENT,
+//                        ViewGroup.LayoutParams.WRAP_CONTENT,
+//                        0));
+//        mPlayButton = new PlayButton(getContext());
+//        ll.addView(mPlayButton,
+//                new LinearLayout.LayoutParams(
+//                        ViewGroup.LayoutParams.WRAP_CONTENT,
+//                        ViewGroup.LayoutParams.WRAP_CONTENT,
+//                        0));
+        return rootView;
     }
 
-    class PlayButton extends Button {
-        boolean mStartPlaying = true;
+//    class RecordButton extends Button {
+//        boolean mStartRecording = true;
+//
+//        OnClickListener clicker = new OnClickListener() {
+//            public void onClick(View v) {
+//                onRecord(mStartRecording);
+//                if (mStartRecording) {
+//                    setText("Stop recording");
+//                } else {
+//                    setText("Start recording");
+//                }
+//                mStartRecording = !mStartRecording;
+//            }
+//        };
+//
+//        public RecordButton(Context ctx) {
+//            super(ctx);
+//            setText("Start recording");
+//            setOnClickListener(clicker);
+//        }
+//    }
 
-        OnClickListener clicker = new OnClickListener() {
-            public void onClick(View v) {
-                onPlay(mStartPlaying);
-                if (mStartPlaying) {
-                    setText("Stop playing");
-                } else {
-                    setText("Start playing");
-                }
-                mStartPlaying = !mStartPlaying;
-            }
-        };
-
-        public PlayButton(Context ctx) {
-            super(ctx);
-            setText("Start playing");
-            setOnClickListener(clicker);
-        }
-    }
+//    class PlayButton extends Button {
+//        boolean mStartPlaying = true;
+//
+//        OnClickListener clicker = new OnClickListener() {
+//            public void onClick(View v) {
+//                onPlay(mStartPlaying);
+//                if (mStartPlaying) {
+//                    setText("Stop playing");
+//                } else {
+//                    setText("Start playing");
+//                }
+//                mStartPlaying = !mStartPlaying;
+//            }
+//        };
+//
+//        public PlayButton(Context ctx) {
+//            super(ctx);
+//            setText("Start playing");
+//            setOnClickListener(clicker);
+//        }
+//    }
 
     @Override
     public void onPause() {

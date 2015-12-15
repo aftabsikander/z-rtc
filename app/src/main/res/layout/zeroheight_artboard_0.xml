@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zeroheight="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/artboard_0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="top|center_horizontal"
+    android:orientation="vertical"
+    android:background="#FF5252"
+    tools:ignore="missingPrefix"
+    tools:context=".MainActivity" >
+
+        <TextView
+            android:layout_width="106dp"
+            android:id="@+id/text_counter"
+            android:textColor="#ffffff"
+            android:layout_marginTop="432dp"
+            android:layout_height="wrap_content"
+            android:textSize="38sp"
+            android:text="@string/zh__00_00"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"/>
+
+        <View android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/circle"
+            android:layout_below="@+id/record_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="39dp"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentBottom="false" />
+        <View android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/white_circle"
+            android:layout_marginTop="39dp"
+        android:layout_centerVertical="false"
+            android:layout_centerHorizontal="true"
+            android:color="#0000"
+            android:id="@+id/record_button"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentBottom="false" />
+        <ImageView
+            android:visibility="gone"
+            android:src="@drawable/img_play_9754"
+            android:scaleType="center"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="158dp"
+            android:layout_marginStart="158dp"
+            android:layout_marginTop="257dp"
+            android:id="@+id/img_play_2"
+            android:layout_height="wrap_content"
+
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/text_counter"
+            android:textColor="#ffffff"
+            android:layout_height="wrap_content"
+            android:textSize="38sp"
+            android:text="@string/zh_start_recording"
+            android:gravity="center"
+            android:layout_below="@+id/img_play_2"
+            android:layout_alignParentStart="true" />
+
+</RelativeLayout>
