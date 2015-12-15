@@ -1,8 +1,12 @@
 package net.zedge.ringtonecreator.list;
 
+import android.media.MediaPlayer;
 import android.os.Environment;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * @author Stein Eldar Johnsen <steineldar@zedge.net>
@@ -14,6 +18,7 @@ public class Recording {
 
     public final String name;
     public final String path;
+    public final int length;
 
     public Recording(File file) {
         path = file.getAbsolutePath();
@@ -23,6 +28,22 @@ public class Recording {
         } else {
             name = tmp;
         }
+
+        int tmpLength = 0;
+        try {
+            MediaPlayer mp = new MediaPlayer();
+            FileInputStream fs;
+            FileDescriptor fd;
+            fs = new FileInputStream(getFile());
+            fd = fs.getFD();
+            mp.setDataSource(fd);
+            mp.prepare();
+            tmpLength = mp.getDuration();
+            mp.release();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        length = tmpLength;
     }
 
     public synchronized static File getBaseDownloadDir() {
@@ -47,5 +68,14 @@ public class Recording {
         }
         Recording other = (Recording) o;
         return path.equals(other.path);
+    }
+
+    public String getLength() {
+        if (length > 0) {
+            float l = (float) length / 1000;
+            return String.format("%.2fs", l);
+        } else {
+            return "0.00s";
+        }
     }
 }

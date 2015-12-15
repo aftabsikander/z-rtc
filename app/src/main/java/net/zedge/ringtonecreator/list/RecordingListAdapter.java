@@ -2,7 +2,6 @@ package net.zedge.ringtonecreator.list;
 
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import android.widget.Button;
 import net.zedge.ringtonecreator.R;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -20,11 +17,11 @@ import java.util.ArrayList;
  * @author Stein Eldar Johnsen <steineldar@zedge.net>
  * @since 15.12.15
  */
-public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHolder> implements RecordingViewHolder.RecordingActionListener {
+public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHolder> implements RecordingViewHolder.RecordingActionListener, MediaPlayer.OnCompletionListener {
     private ArrayList<Recording> recordings;
-    private MediaPlayer player;
-    Button mPlayButton;
-    boolean mIsPlaying = false;
+    private MediaPlayer player = null;
+    private Button mPlayButton = null;
+    private boolean mIsPlaying = false;
 
     public RecordingListAdapter() {
         recordings = new ArrayList<>();
@@ -53,7 +50,6 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     @Override
     public RecordingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recording_item, null);
-        mPlayButton = (Button) view.findViewById(R.id.play_button);
         RecordingViewHolder holder = new RecordingViewHolder(view, this);
         return holder;
     }
@@ -92,34 +88,66 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     }
 
 
+    private MediaPlayer getPlayer() {
+        if (player == null) {
+            player = new MediaPlayer();
+            player.setOnCompletionListener(this);
+        }
+        return player;
+    }
+
+    private void releasePlayer() {
+        if (player != null) {
+            player.release();
+            player = null;
+        }
+    }
+
     @Override
-    public void onPlayRecording(Recording recording) {
+    public void onPlayRecording(RecordingViewHolder holder) {
+        if (mPlayButton != null && mPlayButton != holder.play) {
+            mPlayButton.setText("Play");
+            releasePlayer();
+            mIsPlaying = false;
+        }
+
+        mPlayButton = holder.play;
+
         if (mIsPlaying) {
             mPlayButton.setText("Play");
-            if (player != null) {
-                player.release();
-                player = null;
-            }
+            releasePlayer();
         } else {
             mPlayButton.setText("Stop");
 
-            if (player == null) {
-                player = new MediaPlayer();
-            }
-            if (player.isPlaying()) {
+            if (getPlayer().isPlaying()) {
                 return;
             }
-            playFileInMediaPlayer(player, recording.getFile());
+            playFileInMediaPlayer(getPlayer(), holder.recording.getFile());
         }
         mIsPlaying = !mIsPlaying;
+    }
+
+    @Override
+    public void onSetRingtone(RecordingViewHolder recording) {
 
     }
 
     @Override
-    public void onDeleteRecording(Recording recording) {
+    public void onDeleteRecording(RecordingViewHolder holder) {
+        Recording recording = holder.recording;
         int pos = recordings.indexOf(recording);
         recording.getFile().delete();
         recordings.remove(pos);
         notifyItemRemoved(pos);
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        mIsPlaying = false;
+        if (mPlayButton != null) {
+            mPlayButton.setText("Play");
+            mPlayButton = null;
+        }
+        releasePlayer();
     }
 }
