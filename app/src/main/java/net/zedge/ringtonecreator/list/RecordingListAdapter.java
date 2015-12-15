@@ -1,12 +1,13 @@
-package net.zedge.ringtonecreator;
+package net.zedge.ringtonecreator.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.zedge.ringtonecreator.R;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -24,15 +25,15 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
         int oldSize = recordings.size();
         recordings.clear();
         File dir = Recording.getBaseDownloadDir();
+
         if (dir.exists()) {
+            if (!dir.isDirectory()) {
+                throw new IllegalStateException(dir.getAbsolutePath() + " is not a cirectory!!!");
+            }
             File[] content = dir.listFiles();
 
             for (File file : content) {
-                try {
-                    recordings.add(new Recording(file));
-                } catch (IOException e) {
-                    // Ignore.
-                }
+                recordings.add(new Recording(file));
             }
         }
 
@@ -51,6 +52,11 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     @Override
     public void onBindViewHolder(RecordingViewHolder holder, int position) {
         holder.bind(recordings.get(position));
+    }
+
+    @Override
+    public void onViewRecycled(RecordingViewHolder holder) {
+        holder.recycle();
     }
 
     @Override

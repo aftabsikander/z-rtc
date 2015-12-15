@@ -4,4 +4,5 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="recordings">My Recordings</string>
     <string name="record">Record a Ringtone</string>
+    <string name="play">play</string>
 </resources>
