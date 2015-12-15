@@ -25,6 +25,9 @@ public class Recording {
         if (sBaseDownloadDir == null) {
             sBaseDownloadDir =
                     new File(Environment.getExternalStorageDirectory(), BASE_DOWNLOAD_DIR);
+            if (!sBaseDownloadDir.exists()) {
+                sBaseDownloadDir.mkdir();
+            }
         }
         return sBaseDownloadDir;
     }
@@ -32,4 +35,6 @@ public class Recording {
     public File getFile() {
         return new File(getBaseDownloadDir(), name);
     }
+
+
 }

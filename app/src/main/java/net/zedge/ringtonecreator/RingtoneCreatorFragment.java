@@ -16,6 +16,7 @@ import android.content.Context;
 import android.util.Log;
 import android.media.MediaRecorder;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -67,6 +68,8 @@ public class RingtoneCreatorFragment extends Fragment {
     }
 
     private void startRecording() {
+        mFileName = getNewFile().getAbsolutePath();
+
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -100,18 +103,13 @@ public class RingtoneCreatorFragment extends Fragment {
     }
 
     public RingtoneCreatorFragment() {
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
     }
 
     @Override
-//        View rootView = inflater.inflate(R.layout.ringtone_creator, container, false);
-//        TextView textView = (TextView) rootView.findViewById(R.id.recordings);
-//        textView.setText(getString(R.string.section_format,
-//                                   getArguments().getInt(ARG_SECTION_NUMBER)));
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recording_item, container, false);
+//        TextView textView = (TextView) rootView.findViewById(R.id.recordings);
+//        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
         LinearLayout ll = (LinearLayout) rootView.findViewById(R.id.f_layout);
 
         mRecordButton = new RecordButton(getContext());
@@ -185,6 +183,30 @@ public class RingtoneCreatorFragment extends Fragment {
             mPlayer.release();
             mPlayer = null;
         }
+    }
+
+    public File getNewFile() { return new File(Recording.getBaseDownloadDir(), "record."+findNextIndex()); }
+
+
+
+    public int findNextIndex() {
+        int ret = 1;
+        try {
+            File file[] = Recording.getBaseDownloadDir().listFiles();
+        for (int i=0; i < file.length; i++) {
+            String name = file[i].getName();
+            int pos = name.indexOf(".");
+            if (pos != -1 && pos < name.length()) {
+                    int ii = Integer.parseInt(name.substring(pos+1));
+                    if (ii>=ret) {
+                        ret = ii+1;
+                    }
+            }
+        }
+        } catch (Exception e) {
+
+        }
+        return ret;
     }
 }
 
