@@ -5,7 +5,7 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +16,10 @@ import net.zedge.ringtonecreator.R;
  * @since 15.12.15
  */
 public class RecordingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+    private static final int SET_RINGTONE = 0;
+    private static final int SHARE = 2;
+    private static final int DELETE = 3;
+
     private final RecordingActionListener listener;
     private final TextView length;
 
@@ -29,7 +33,7 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
 
     public final TextView title;
     public final ImageView play;
-    public final Button context;
+    public final FrameLayout context;
 
     public RecordingViewHolder(View itemView, RecordingActionListener listener) {
         super(itemView);
@@ -40,7 +44,7 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
         length = (TextView) itemView.findViewById(R.id.length);
 
         play = (ImageView) itemView.findViewById(R.id.play_button);
-        context = (Button) itemView.findViewById(R.id.context);
+        context = (FrameLayout) itemView.findViewById(R.id.context);
 
         play.setOnClickListener(this);
         context.setOnClickListener(this);
@@ -73,18 +77,20 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle(R.string.recording_action);
-        menu.add(0, 1, Menu.NONE, R.string.set).setOnMenuItemClickListener(this);
-        menu.add(0, 0, Menu.NONE, R.string.delete).setOnMenuItemClickListener(this);
+        menu.add(Menu.NONE, SET_RINGTONE, Menu.NONE, R.string.set)
+            .setOnMenuItemClickListener(this);
+        menu.add(Menu.NONE, DELETE, Menu.NONE, R.string.delete)
+            .setOnMenuItemClickListener(this);
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case 0:
-                listener.onDeleteRecording(this);
-                return true;
-            case 1:
+            case SET_RINGTONE:
                 listener.onSetRingtone(this);
+                return true;
+            case DELETE:
+                listener.onDeleteRecording(this);
                 return true;
         }
         return false;

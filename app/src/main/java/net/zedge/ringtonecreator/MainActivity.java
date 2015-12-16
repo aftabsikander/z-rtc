@@ -123,9 +123,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return RecordingListFragment.getInstance();
-                case 1:
                     return RingtoneCreatorFragment.newInstance(0);
+                case 1:
+                    return RecordingListFragment.getInstance();
                 default:
                     return null;
             }
@@ -140,9 +140,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return context.getString(R.string.recordings);
-                case 1:
                     return context.getString(R.string.record);
+                case 1:
+                    return context.getString(R.string.recordings);
             }
             return null;
         }
