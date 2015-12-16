@@ -12,6 +12,7 @@ import net.zedge.ringtonecreator.R;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Stein Eldar Johnsen <steineldar@zedge.net>
@@ -34,10 +35,16 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     }
 
     public void reload() {
-        int oldSize = recordings.size();
-        recordings.clear();
+        ArrayList<Recording> found = new ArrayList<>();
+
+        HashMap<String, Recording> old = new HashMap<>();
+        for (Recording r : recordings) {
+            old.put(r.path, r);
+        }
+
         File dir = Recording.getBaseDownloadDir();
 
+        boolean hasNew = false;
         if (dir.exists()) {
             if (!dir.isDirectory()) {
                 throw new IllegalStateException(dir.getAbsolutePath() + " is not a cirectory!!!");
@@ -45,12 +52,23 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
             File[] content = dir.listFiles();
 
             for (File file : content) {
-                recordings.add(new Recording(file));
+                String path = file.getAbsolutePath();
+                if (old.containsKey(path)) {
+                    found.add(old.get(path));
+                    old.remove(path);
+                } else {
+                    found.add(new Recording(file));
+                    hasNew = true;
+                }
             }
         }
 
-        notifyItemRangeRemoved(0, oldSize);
-        notifyItemRangeInserted(0, recordings.size());
+        if (old.size() > 0 || hasNew) {
+            recordings.clear();
+            recordings.addAll(found);
+
+            notifyDataSetChanged();
+        }
     }
 
     @Override

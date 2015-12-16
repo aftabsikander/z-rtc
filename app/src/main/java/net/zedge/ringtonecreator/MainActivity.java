@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 mToolbar.setTitle((mSectionsPagerAdapter.getPageTitle(position)));
                 switch (position) {
-                    case 0:
+                    case 1:
                         RecordingListFragment.getInstance().reload();
                 }
             }
