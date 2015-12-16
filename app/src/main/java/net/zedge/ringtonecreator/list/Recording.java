@@ -18,6 +18,7 @@ public class Recording {
 
     public final String name;
     public final String path;
+    public final long timestamp;
     public final int length;
 
     public Recording(File file) {
@@ -28,6 +29,7 @@ public class Recording {
         } else {
             name = tmp;
         }
+        timestamp = file.lastModified();
 
         int tmpLength = 0;
         try {
