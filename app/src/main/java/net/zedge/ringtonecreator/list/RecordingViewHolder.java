@@ -17,8 +17,8 @@ import net.zedge.ringtonecreator.R;
  */
 public class RecordingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
     private static final int SET_RINGTONE = 0;
-    private static final int SHARE = 2;
-    private static final int DELETE = 3;
+    private static final int SET_NOTIFICATION = 1;
+    private static final int DELETE = 2;
 
     private final RecordingActionListener listener;
     private final TextView length;
@@ -26,7 +26,9 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
     public interface RecordingActionListener {
         void onPlayRecording(RecordingViewHolder holder);
         void onDeleteRecording(RecordingViewHolder holder);
+
         void onSetRingtone(RecordingViewHolder holder);
+        void onSetNotification(RecordingViewHolder holder);
     }
 
     public Recording recording;
@@ -77,7 +79,9 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle(R.string.recording_action);
-        menu.add(Menu.NONE, SET_RINGTONE, Menu.NONE, R.string.set)
+        menu.add(Menu.NONE, SET_RINGTONE, Menu.NONE, R.string.set_ringtone)
+            .setOnMenuItemClickListener(this);
+        menu.add(Menu.NONE, SET_NOTIFICATION, Menu.NONE, R.string.set_notification)
             .setOnMenuItemClickListener(this);
         menu.add(Menu.NONE, DELETE, Menu.NONE, R.string.delete)
             .setOnMenuItemClickListener(this);
@@ -87,6 +91,9 @@ public class RecordingViewHolder extends RecyclerView.ViewHolder implements View
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case SET_RINGTONE:
+                listener.onSetRingtone(this);
+                return true;
+            case SET_NOTIFICATION:
                 listener.onSetRingtone(this);
                 return true;
             case DELETE:

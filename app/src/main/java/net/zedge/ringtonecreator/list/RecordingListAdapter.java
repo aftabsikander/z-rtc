@@ -12,6 +12,8 @@ import net.zedge.ringtonecreator.R;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -27,6 +29,8 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
 
     public interface SetRingtoneListener {
         void setRingtone(Recording recording);
+
+        void setNotification(Recording recording);
     }
 
     public RecordingListAdapter(SetRingtoneListener listener) {
@@ -62,6 +66,13 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
                 }
             }
         }
+
+        Collections.sort(found, new Comparator<Recording>() {
+            @Override
+            public int compare(Recording lhs, Recording rhs) {
+                return -Long.compare(lhs.timestamp, rhs.timestamp);
+            }
+        });
 
         if (old.size() > 0 || hasNew) {
             recordings.clear();
@@ -154,6 +165,11 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     @Override
     public void onSetRingtone(RecordingViewHolder recording) {
         listener.setRingtone(recording.recording);
+    }
+
+    @Override
+    public void onSetNotification(RecordingViewHolder holder) {
+        listener.setNotification(holder.recording);
     }
 
     @Override
