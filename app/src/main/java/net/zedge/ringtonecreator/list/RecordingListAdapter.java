@@ -29,6 +29,8 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
 
     public interface SetRingtoneListener {
         void setRingtone(Recording recording);
+
+        void setNotification(Recording recording);
     }
 
     public RecordingListAdapter(SetRingtoneListener listener) {
@@ -163,6 +165,11 @@ public class RecordingListAdapter extends RecyclerView.Adapter<RecordingViewHold
     @Override
     public void onSetRingtone(RecordingViewHolder recording) {
         listener.setRingtone(recording.recording);
+    }
+
+    @Override
+    public void onSetNotification(RecordingViewHolder holder) {
+        listener.setNotification(holder.recording);
     }
 
     @Override

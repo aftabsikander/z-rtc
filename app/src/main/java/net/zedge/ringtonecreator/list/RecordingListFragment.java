@@ -80,6 +80,12 @@ public class RecordingListFragment extends Fragment implements RecordingListAdap
                                                     getSoundFileURI(recording));
     }
 
+    @Override
+    public void setNotification(Recording recording) {
+        RingtoneManager.setActualDefaultRingtoneUri(getActivity(), RingtoneManager.TYPE_NOTIFICATION,
+                                                    getSoundFileURI(recording));
+    }
+
     /**
      * Find URI from content provider based on file path. If it is not
      * found, a new scan is triggered.

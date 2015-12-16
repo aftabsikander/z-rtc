@@ -6,7 +6,8 @@
     <string name="record">Record a Ringtone</string>
     <string name="play">play</string>
     <string name="delete">Delete Recording</string>
-    <string name="set">Set as Ringtone</string>
+    <string name="set_ringtone">Set as Ringtone</string>
     <string name="recording_action">Action</string>
     <string name="stop">Stop</string>
+    <string name="set_notification">Set Notification Sound</string>
 </resources>
