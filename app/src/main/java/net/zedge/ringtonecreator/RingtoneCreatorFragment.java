@@ -35,7 +35,7 @@ public class RingtoneCreatorFragment extends Fragment {
     Handler handler;
     private VisualizerView mVisualizerView;
     private boolean mStartRecording = true;
-    private long mTime;
+    private long mCounterTime;
 
     private void onRecord(boolean start) {
         if (start) {
@@ -83,7 +83,7 @@ public class RingtoneCreatorFragment extends Fragment {
 
             mRecorder.getMaxAmplitude();
             mRecorder.start();
-            mTime = System.currentTimeMillis();
+            mCounterTime = System.currentTimeMillis();
         } catch (IOException e) {
             Log.e(LOG, "prepare() failed");
         }
@@ -110,9 +110,27 @@ public class RingtoneCreatorFragment extends Fragment {
         }
     };
 
-    static int c = 0;
-    String getTimeAsText() {
-        return Integer.toString(c++);
+     String getTimeAsText() {
+        int min = 0;
+        int sec = 0;
+        int msec = 0;
+
+        if (mCounterTime !=0) {
+            long diff = System.currentTimeMillis()-mCounterTime;
+            msec = (int) diff % 100;
+            sec = (int) ((diff / 1000) % 60);
+            min = (int) ((diff / 60000) % 60);
+
+        }
+
+        return getDigit(min)+":"+getDigit(sec)+":"+getDigit(msec);
+     }
+
+    String getDigit(int i) {
+        if (i > 99) i = i / 100;
+        String ret = Integer.toString(i);
+        if (ret.length() == 1) ret = "0" + ret;
+        return ret;
     }
 
     private void stopRecording() {
@@ -154,6 +172,11 @@ public class RingtoneCreatorFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCounterTime = 0;
+                mVisualizerView.clear();
+                mVisualizerView.invalidate(); // refresh the VisualizerView
+
+                mTextCounter.setText(getTimeAsText());
 
             }
         });
@@ -179,15 +202,17 @@ public class RingtoneCreatorFragment extends Fragment {
                 if (mStartRecording) {
                     textView.setText("Stop recording");
                     imageView.setImageResource(R.drawable.stop_btn);
-                } else {
-                    textView.setText("Start recording");
-                    imageView.setImageResource(R.drawable.rec_btn);
 
-                    c=0;
+                    mCounterTime = System.currentTimeMillis();
                     mVisualizerView.clear();
                     mVisualizerView.invalidate(); // refresh the VisualizerView
 
                     mTextCounter.setText(getTimeAsText());
+
+                } else {
+                    textView.setText("Start recording");
+                    imageView.setImageResource(R.drawable.rec_btn);
+
 
                 }
 
