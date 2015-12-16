@@ -203,7 +203,7 @@ public class RingtoneCreatorFragment extends Fragment {
                     textView.setText("Stop recording");
                     imageView.setImageResource(R.drawable.stop_btn);
 
-                    mCounterTime = 0;
+                    mCounterTime = System.currentTimeMillis();
                     mVisualizerView.clear();
                     mVisualizerView.invalidate(); // refresh the VisualizerView
 
